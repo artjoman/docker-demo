@@ -1,0 +1,23 @@
+version: '3' # specify docker-compose version
+
+services:
+  angular: # name of the first service
+    build: ./angular-frontend # specify the directory of the Dockerfile
+    ports:
+      - "81:80" # maps port 4200 on localhost to 80 in container
+    networks:
+      - mynetwork
+    depends_on:
+      - "nestjs"
+
+  nestjs: # name of the second service
+    build:  # specify the directory of the Dockerfile
+      context: ./nest-backend
+      dockerfile: Dockerfile.backend
+    ports:
+      - "3001:3000" # maps port 8000 on localhost to 8000 in container
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
